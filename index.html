@@ -555,5 +555,14 @@
     alert(`Panel docente: descargado registro con ${log.length} consultas.`);
   }
 </script>
+  <flowise-fullchatbot></flowise-fullchatbot>
+
+<script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+    Chatbot.initFull({
+        chatflowid: "e7e98910-13ae-4b09-8aa1-380755d72185",
+        apiHost: "https://cloud.flowiseai.com",
+    })
+</script>
 </body>
 </html>
