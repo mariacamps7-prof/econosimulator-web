@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foro de la Generación Decisiva — Sala del Gabinete</title>
+<style>
+  /* ============= RESET Y TIPOGRAFÍA ============= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-deep: #0F1B2D;
+    --bg-mid: #1A2942;
+    --bg-card: #213354;
+    --accent-gold: #D4A574;
+    --accent-blue: #6FA8DC;
+    --accent-green: #88C9A1;
+    --accent-coral: #E8927C;
+    --text-primary: #F5F5F0;
+    --text-secondary: #B8C5D6;
+    --text-muted: #7A8AA0;
+    --border-subtle: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: radial-gradient(ellipse at top, var(--bg-mid) 0%, var(--bg-deep) 60%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+    padding: 32px 20px 60px;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ============= CABECERA ============= */
+  .header {
+    text-align: center;
+    padding: 28px 0 40px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: var(--accent-gold);
+  }
+
+  .crest {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding: 6px 16px;
+    border: 1px solid var(--accent-gold);
+    border-radius: 2px;
+  }
+  .crest::before, .crest::after {
+    content: '◆';
+    font-size: 8px;
+  }
+
+  h1 {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ============= BLOQUE DE INSTRUCCIONES ============= */
+  .instructions {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    position: relative;
+  }
+
+  .instructions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-gold);
+    border-radius: 6px 0 0 6px;
+  }
+
+  .instruction-step {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .step-number {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: var(--accent-gold);
+    letter-spacing: 2px;
+  }
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  /* ============= GRID DE AGENTES ============= */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  .agent-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 28px 24px 24px;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+  .agent-card.ministerio::before { background: var(--accent-blue); }
+  .agent-card.sector::before { background: var(--accent-coral); }
+  .agent-card.ine::before { background: var(--accent-green); }
+
+  .agent-emblem {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    border: 2px solid;
+  }
+  .ministerio .agent-emblem {
+    background: rgba(111,168,220,0.15);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+  }
+  .sector .agent-emblem {
+    background: rgba(232,146,124,0.15);
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+  }
+  .ine .agent-emblem {
+    background: rgba(136,201,161,0.15);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+
+  .agent-role {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .agent-name {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .agent-description {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .agent-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .meta-label { color: var(--text-muted); }
+  .meta-value { color: var(--text-secondary); }
+
+  .agent-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: background 0.2s ease;
+    text-decoration: none;
+  }
+  .ministerio .agent-cta { color: var(--accent-blue); border-color: var(--accent-blue); }
+  .sector .agent-cta { color: var(--accent-coral); border-color: var(--accent-coral); }
+  .ine .agent-cta { color: var(--accent-green); border-color: var(--accent-green); }
+
+  .agent-card:hover .agent-cta.ministerio { background: rgba(111,168,220,0.15); }
+  .agent-card:hover .agent-cta.sector { background: rgba(232,146,124,0.15); }
+  .agent-card:hover .agent-cta.ine { background: rgba(136,201,161,0.15); }
+
+  /* ============= REGLA DE TRIANGULACIÓN ============= */
+  .triangulation-rule {
+    background: rgba(212,165,116,0.08);
+    border: 1px solid rgba(212,165,116,0.25);
+    border-radius: 6px;
+    padding: 18px 24px;
+    margin-bottom: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .rule-icon {
+    color: var(--accent-gold);
+    font-size: 22px;
+    font-family: 'Georgia', serif;
+    flex-shrink: 0;
+  }
+  .rule-text {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .rule-text strong { color: var(--text-primary); }
+
+  /* ============= FOOTER ============= */
+  .footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* ============= RESPONSIVE ============= */
+  @media (max-width: 900px) {
+    .agents-grid { grid-template-columns: 1fr; }
+    .instructions { grid-template-columns: 1fr; }
+    h1 { font-size: 30px; }
+  }
+
+  /* ============= MODAL DE REGISTRO DE EQUIPO ============= */
+  .team-bar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 14px 22px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .team-input-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .team-input-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .team-input-group input {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    font-family: inherit;
+    min-width: 140px;
+  }
+  .team-input-group input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+  }
+  .team-status {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  .team-status.active { color: var(--accent-green); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- CABECERA -->
+  <div class="header">
+    <div class="crest">Foro de la Generación Decisiva</div>
+    <h1>Sala del Gabinete</h1>
+    <p class="subtitle">Acceso a los dos consejeros técnicos del Foro. Cada uno aporta una perspectiva económica diferenciada que su Gabinete debe contrastar antes de presentar su propuesta.</p>
+  </div>
+
+  <!-- REGISTRO DEL EQUIPO -->
+  <div class="team-bar">
+    <div class="team-input-group">
+      <label>Gabinete:</label>
+      <input type="text" id="team-name" placeholder="Nombre del equipo" autocomplete="off">
+      <label>Reto:</label>
+      <input type="text" id="team-challenge" placeholder="Reto que abordan" autocomplete="off">
+    </div>
+    <div class="team-status" id="team-status">Identifíquense antes de consultar a los consejeros.</div>
+  </div>
+
+  <!-- INSTRUCCIONES BREVES -->
+  <div class="instructions">
+    <div class="instruction-step">
+      <div class="step-number">PROTOCOLO I</div>
+      <div class="step-title">Triangulen antes de decidir</div>
+      <div class="step-desc">Consulten a los tres consejeros antes de cerrar cualquier propuesta. Una sola voz nunca basta.</div>
+    </div>
+    <div class="instruction-step">
+      <div class="step-number">PROTOCOLO II</div>
+      <div class="step-title">Verifiquen lo que les digan</div>
+      <div class="step-desc">El Contralor del Gabinete debe contrastar las cifras del Analista con la fuente oficial original.</div>
+    </div>
+    <div class="instruction-step">
+      <div class="step-number">PROTOCOLO III</div>
+      <div class="step-title">La decisión es del Gabinete</div>
+      <div class="step-desc">Los consejeros aportan análisis, datos y objeciones. La propuesta final la firma su equipo.</div>
+    </div>
+  </div>
+
+  <!-- GRID DE AGENTES -->
+  <div class="agents-grid">
+
+    <!-- AGENTE 1: ASESOR DEL MINISTERIO -->
+    <a href="#" class="agent-card ministerio" id="link-ministerio" data-agent="ministerio">
+      <div class="agent-emblem">M</div>
+      <div class="agent-role">Consejero técnico</div>
+      <div class="agent-name">Asesor del Ministerio de Economía</div>
+      <div class="agent-description">Funcionario senior con visión técnica del Estado. Identifica trade-offs, simula consecuencias macroeconómicas plausibles y pregunta para que ustedes profundicen.</div>
+      <div class="agent-meta">
+        <div class="meta-row"><span class="meta-label">Perspectiva</span><span class="meta-value">Política pública</span></div>
+        <div class="meta-row"><span class="meta-label">Estilo</span><span class="meta-value">Formal, socrático</span></div>
+        <div class="meta-row"><span class="meta-label">Útil para</span><span class="meta-value">Fiscal y monetario</span></div>
+      </div>
+      <span class="agent-cta ministerio">Consultar al Asesor →</span>
+    </a>
+
+    <!-- AGENTE 2: REPRESENTANTE DEL SECTOR -->
+    <a href="#" class="agent-card sector" id="link-sector" data-agent="sector">
+      <div class="agent-emblem">S</div>
+      <div class="agent-role">Voz del afectado</div>
+      <div class="agent-name">Representante del Sector Privado</div>
+      <div class="agent-description">Defiende los intereses del sector que su propuesta afectaría. Plantea objeciones legítimas, advierte de consecuencias microeconómicas y propone matizaciones.</div>
+      <div class="agent-meta">
+        <div class="meta-row"><span class="meta-label">Perspectiva</span><span class="meta-value">Empresa o ciudadanía</span></div>
+        <div class="meta-row"><span class="meta-label">Estilo</span><span class="meta-value">Directo, negociador</span></div>
+        <div class="meta-row"><span class="meta-label">Útil para</span><span class="meta-value">Impacto sectorial</span></div>
+      </div>
+      <span class="agent-cta sector">Consultar al Representante →</span>
+    </a>
+
+    <!-- AGENTE 3: ANALISTA DEL INE -->
+    <a href="#" class="agent-card ine" id="link-ine" data-agent="ine">
+      <div class="agent-emblem">I</div>
+      <div class="agent-role">Solo datos</div>
+      <div class="agent-name">Analista del INE</div>
+      <div class="agent-description">Técnico estadístico riguroso. Aporta datos plausibles con sus fuentes oficiales y nunca interpreta por ustedes. La lectura de lo que significan es responsabilidad del Gabinete.</div>
+      <div class="agent-meta">
+        <div class="meta-row"><span class="meta-label">Perspectiva</span><span class="meta-value">Datos neutros</span></div>
+        <div class="meta-row"><span class="meta-label">Estilo</span><span class="meta-value">Conciso, preciso</span></div>
+        <div class="meta-row"><span class="meta-label">Útil para</span><span class="meta-value">Diagnóstico cuantitativo</span></div>
+      </div>
+      <span class="agent-cta ine">Consultar al Analista →</span>
+    </a>
+
+  </div>
+
+  <!-- REGLA DE TRIANGULACIÓN -->
+  <div class="triangulation-rule">
+    <div class="rule-icon">⚖</div>
+    <div class="rule-text">
+      <strong>Regla de triangulación obligatoria.</strong>
+      Antes de cerrar la propuesta de cada semana, su Gabinete debe haber consultado al menos a uno de los dos consejeros. Registren en su informe qué les dijo cada uno y dónde discreparon. Esto no es opcional: forma parte de la rúbrica de evaluación.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Materia: Economía · 1.º Bachillerato HCS · Reto trimestral basado en LOMLOE (RD 243/2022 · D 64/2022 Madrid)
+  </div>
+
+</div>
+
+<script>
+  // Configuración del docente: sustituir los enlaces por los reales
+  // según la plataforma elegida (SchoolAI, GPTs, Claude Projects, etc.)
+  const LINKS = {
+    ministerio: "https://cloud.flowiseai.com/chatbot/e7e98910-13ae-4b09-8aa1-380755d72185",
+    sector:     "https://cloud.flowiseai.com/chatbot/e04d64d8-e37a-4a7f-be9e-08cee80a3fea",
+    ine:        "https://schoolai.com/spaces/REEMPLAZAR-CON-SU-ENLACE"
+  };
+
+  // Aplicar enlaces a las tarjetas
+  document.getElementById('link-ministerio').href = LINKS.ministerio;
+  document.getElementById('link-sector').href = LINKS.sector;
+  document.getElementById('link-ine').href = LINKS.ine;
+
+  // Identificación de equipo: persistente entre sesiones (solo en ese navegador)
+  const teamName = document.getElementById('team-name');
+  const teamChallenge = document.getElementById('team-challenge');
+  const teamStatus = document.getElementById('team-status');
+
+  // Recuperar valores guardados
+  teamName.value = localStorage.getItem('foro_team_name') || '';
+  teamChallenge.value = localStorage.getItem('foro_team_challenge') || '';
+  updateStatus();
+
+  // Guardar al escribir
+  teamName.addEventListener('input', () => {
+    localStorage.setItem('foro_team_name', teamName.value);
+    updateStatus();
+  });
+  teamChallenge.addEventListener('input', () => {
+    localStorage.setItem('foro_team_challenge', teamChallenge.value);
+    updateStatus();
+  });
+
+  function updateStatus() {
+    if (teamName.value.trim() && teamChallenge.value.trim()) {
+      teamStatus.textContent = `Gabinete "${teamName.value}" — sesión registrada.`;
+      teamStatus.classList.add('active');
+    } else {
+      teamStatus.textContent = 'Identifíquense antes de consultar a los consejeros.';
+      teamStatus.classList.remove('active');
+    }
+  }
+
+  // Click en agentes: validar identificación y registrar consulta
+  document.querySelectorAll('.agent-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (!teamName.value.trim() || !teamChallenge.value.trim()) {
+        e.preventDefault();
+        teamStatus.textContent = '⚠ Completen primero el nombre del Gabinete y el reto.';
+        teamStatus.style.color = '#E8927C';
+        teamName.focus();
+        return;
+      }
+      // Registro local de consulta (para que el docente pueda preguntar al equipo)
+      const log = JSON.parse(localStorage.getItem('foro_consultas_log') || '[]');
+      log.push({
+        timestamp: new Date().toISOString(),
+        team: teamName.value.trim(),
+        challenge: teamChallenge.value.trim(),
+        agent: card.dataset.agent
+      });
+      localStorage.setItem('foro_consultas_log', JSON.stringify(log));
+    });
+  });
+
+  // Acceso oculto al panel docente: triple-click en el escudo
+  let crestClicks = 0;
+  let crestTimer;
+  document.querySelector('.crest').addEventListener('click', () => {
+    crestClicks++;
+    clearTimeout(crestTimer);
+    crestTimer = setTimeout(() => crestClicks = 0, 1000);
+    if (crestClicks >= 3) {
+      crestClicks = 0;
+      showTeacherPanel();
+    }
+  });
+
+  function showTeacherPanel() {
+    const log = JSON.parse(localStorage.getItem('foro_consultas_log') || '[]');
+    if (log.length === 0) {
+      alert('Panel docente: aún no hay consultas registradas en este equipo/navegador.');
+      return;
+    }
+    const text = log.map(e =>
+      `${e.timestamp} | ${e.team} | reto: "${e.challenge}" | consultó: ${e.agent}`
+    ).join('\n');
+    const blob = new Blob(['# Registro de consultas — Foro de la Generación Decisiva\n\n' + text],
+      { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `consultas_${new Date().toISOString().slice(0,10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    alert(`Panel docente: descargado registro con ${log.length} consultas.`);
+  }
+</script>
+</body>
+</html>
