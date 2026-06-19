@@ -6,7 +6,6 @@
 <title>Generación Decisiva — Sala del Gabinete</title>
 
 <style>
-  /* ============= RESET Y TIPOGRAFÍA ============= */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -15,7 +14,6 @@
     --bg-card: #213354;
     --accent-gold: #D4A574;
     --accent-blue: #6FA8DC;
-    --accent-green: #88C9A1;
     --accent-coral: #E8927C;
     --text-primary: #F5F5F0;
     --text-secondary: #B8C5D6;
@@ -25,11 +23,10 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     background: radial-gradient(ellipse at top, var(--bg-mid) 0%, var(--bg-deep) 60%);
     color: var(--text-primary);
     min-height: 100vh;
-    line-height: 1.5;
     padding: 32px 20px 60px;
   }
 
@@ -44,13 +41,13 @@
 
   .crest {
     display: inline-flex;
-    align-items: center;
-    gap: 12px;
+    gap: 10px;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
     color: var(--accent-gold);
+    letter-spacing: 3px;
     text-transform: uppercase;
+    border: 1px solid var(--accent-gold);
+    padding: 6px 16px;
     margin-bottom: 16px;
   }
 
@@ -64,47 +61,125 @@
     font-size: 15px;
     color: var(--text-secondary);
     font-style: italic;
+    max-width: 600px;
+    margin: 10px auto 0;
+  }
+
+  .team-bar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 14px 22px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .team-input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .team-input-group input {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+
+  .team-status {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .team-status.active {
+    color: #88C9A1;
   }
 
   .agents-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-bottom: 48px;
   }
 
   .agent-card {
     background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     border-radius: 8px;
-    padding: 28px;
+    padding: 24px;
     text-decoration: none;
     color: inherit;
-    border: 1px solid var(--border-subtle);
+    transition: 0.25s;
+  }
+
+  .agent-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
   }
 
   .agent-emblem {
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 14px;
     font-weight: bold;
-    margin-bottom: 18px;
   }
 
-  .ministerio .agent-emblem { background: rgba(111,168,220,0.15); color: var(--accent-blue); }
-  .sector .agent-emblem { background: rgba(232,146,124,0.15); color: var(--accent-coral); }
+  .ministerio .agent-emblem {
+    border: 2px solid var(--accent-blue);
+    color: var(--accent-blue);
+  }
+
+  .sector .agent-emblem {
+    border: 2px solid var(--accent-coral);
+    color: var(--accent-coral);
+  }
 
   .agent-name {
     font-family: Georgia, serif;
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 10px;
   }
 
   .agent-description {
     font-size: 13px;
     color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+
+  .agent-cta {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .ministerio .agent-cta {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+  }
+
+  .sector .agent-cta {
+    border-color: var(--accent-coral);
+    color: var(--accent-coral);
+  }
+
+  .triangulation-rule {
+    margin-top: 30px;
+    padding: 18px;
+    border: 1px solid rgba(212,165,116,0.3);
+    background: rgba(212,165,116,0.08);
+    border-radius: 6px;
   }
 </style>
 </head>
@@ -112,40 +187,78 @@
 <body>
 <div class="container">
 
-  <!-- CABECERA -->
   <div class="header">
-    <div class="crest">GENERACIÓN DECISIVA · ECONOMY LAB</div>
+    <div class="crest">GENERACIÓN DECISIVA</div>
     <h1>Sala del Gabinete</h1>
-    <p class="subtitle">Acceso a consejeros técnicos del Foro.</p>
+    <p class="subtitle">
+      Dos consejeros técnicos. Una decisión. Contrasten antes de responder.
+    </p>
   </div>
 
-  <!-- GRID DE AGENTES -->
+  <div class="team-bar">
+    <div class="team-input-group">
+      <label>Gabinete:</label>
+      <input type="text" id="team-name" placeholder="Nombre del equipo">
+      <label>Reto:</label>
+      <input type="text" id="team-challenge" placeholder="Reto">
+    </div>
+    <div class="team-status" id="team-status">Identifíquense antes de comenzar.</div>
+  </div>
+
   <div class="agents-grid">
 
-    <a href="#" class="agent-card ministerio" id="link-ministerio" data-agent="ministerio">
+    <!-- MINISTERIO -->
+    <a class="agent-card ministerio"
+       id="ministerio"
+       target="_blank"
+       href="https://cloud.flowiseai.com/chatbot/e7e98910-13ae-4b09-8aa1-380755d72185">
+
       <div class="agent-emblem">M</div>
       <div class="agent-name">Asesor del Ministerio</div>
-      <div class="agent-description">Análisis de política económica.</div>
+      <div class="agent-description">
+        Análisis macroeconómico, política pública y trade-offs.
+      </div>
+      <span class="agent-cta">Abrir chat →</span>
     </a>
 
-    <a href="#" class="agent-card sector" id="link-sector" data-agent="sector">
+    <!-- SECTOR -->
+    <a class="agent-card sector"
+       target="_blank"
+       href="https://cloud.flowiseai.com/chatbot/e04d64d8-e37a-4a7f-be9e-08cee80a3fea">
+
       <div class="agent-emblem">S</div>
       <div class="agent-name">Representante del Sector</div>
-      <div class="agent-description">Impacto empresarial y social.</div>
+      <div class="agent-description">
+        Impacto empresarial y social de las decisiones.
+      </div>
+      <span class="agent-cta">Abrir chat →</span>
     </a>
 
+  </div>
+
+  <div class="triangulation-rule">
+    <strong>Regla:</strong> consulten a ambos consejeros antes de decidir.
   </div>
 
 </div>
 
-<!-- ================= FLOWISE CHAT ================= -->
-<script type="module">
-  import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
+<script>
+  const teamName = document.getElementById('team-name');
+  const teamChallenge = document.getElementById('team-challenge');
+  const teamStatus = document.getElementById('team-status');
 
-  Chatbot.initFull({
-    chatflowid: "e7e98910-13ae-4b09-8aa1-380755d72185",
-    apiHost: "https://cloud.flowiseai.com",
-  });
+  function update() {
+    if (teamName.value && teamChallenge.value) {
+      teamStatus.textContent = `Gabinete "${teamName.value}" listo.`;
+      teamStatus.classList.add('active');
+    } else {
+      teamStatus.textContent = "Identifíquense antes de comenzar.";
+      teamStatus.classList.remove('active');
+    }
+  }
+
+  teamName.addEventListener('input', update);
+  teamChallenge.addEventListener('input', update);
 </script>
 
 </body>
